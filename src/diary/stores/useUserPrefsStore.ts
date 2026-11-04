@@ -1,45 +1,37 @@
 import {create} from "zustand";
-import { persist } from 'zustand/middleware';
 import Language from "../types/Language";
+import {Preferences} from "../types/Preferances";
+import useMultiUserPrefStore from "./useMultiUserPrefStore";
+import useUserSessionStore from "./useUserSessionStore";
 
-
-interface Preferences {
-    prefLang: Language;
-    theme: "dark" | "light" | "system";
-}
 const initialUserState: Preferences = {
     prefLang: Language.ENGLISH,
     theme: "system",
 }
 
-type UserDict = Record<string, Preferences>;
-
-interface MultiUserPreferences {
-    users: UserDict
-    getPrefs: (userId: string) => Preferences
-    initUser: (userId: string) => void;
+interface UsersPrefStore extends Preferences{
+    setPref: <K extends keyof Preferences>( key: K, value: Preferences[K] ) => void
+    changeUser: (userId: string) => void
 }
 
-const useUsersPrefStore = create<MultiUserPreferences>()(
-    persist( (set, get) => ({
-        users: {},
+const useUserPrefsStore = create<UsersPrefStore>(
+    ( set, get ) => ({
+        ...initialUserState,
+        setPref: (key, value) => {
+            set({[key]: value})
 
-        getPrefs: (userId) => ( get().users[userId] ),
-        initUser: (userId) => {
-            const existing = get().users[userId];
-            if (!existing) {
-                const newPrefs = initialUserState;
-                set((state) => ({
-                    users: {
-                        ...state.users,
-                        [userId]: newPrefs
-                    }
-                }));
-            }
+            const { setPref, ...currentPrefs } = get();
+
+            const userId = useUserSessionStore.getState().userId
+            useMultiUserPrefStore.getState().saveUser(userId, currentPrefs)
+        },
+        changeUser: (userId: string) => {
+            const newUser: Preferences | undefined = useMultiUserPrefStore.getState().getUser(userId)
+            if (newUser)
+                set(newUser)
+            else
+                set(initialUserState)
         }
-
-    }),{
-        name: "preferences",
     })
 )
-export default useUsersPrefStore;
+export default useUserPrefsStore;

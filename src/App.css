@@ -3,6 +3,8 @@
 body{
     margin: 0;
 }
+#root[data-theme="light"] { color-scheme: light }
+#root[data-theme="dark"] { color-scheme: dark }
 #root{
     color-scheme: light dark;
     height: 100dvh;

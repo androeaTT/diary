@@ -17,7 +17,7 @@ export function SpringButton({ variant,  buttonClassName, className, onClick, fi
                     "overflow-hidden bg-center bg-contain bg-repeat",
                     "flex items-center relative justify-center",
                     "pt-3 pb-3 pl-3 pr-3 min-h-10 rounded-full h-max",
-                    "w-full",
+                    "w-full gap-2",
                     "transition-[width] duration-200 ease-in-out",
                     variantClasses[variant],
                     buttonClassName
@@ -32,7 +32,7 @@ export function SpringButton({ variant,  buttonClassName, className, onClick, fi
                        hover:bg-(--bg-dark-mod) active:transition-none
                        active:bg-(--bg-darker-mod)"
                 />
-                <div hidden={label === false} className="flex-1">{label}</div>
+                <div hidden={label === false} className="flex-1 mr-1.5">{label}</div>
             </button>
         </SmoothWidthBox>
     )

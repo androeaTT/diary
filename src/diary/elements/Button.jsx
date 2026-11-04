@@ -15,7 +15,7 @@ export function Button({ variant, icon = false, className, onClick, label = fals
                 "overflow-hidden bg-center bg-contain bg-repeat",
                 "flex items-center relative justify-center",
                 "pt-3 pb-3 pl-3 pr-3 min-h-10 rounded-full h-max",
-
+                "gap-2",
                 "transition-[width] duration-200 ease-in-out",
                 variantClasses[variant],
                 className
@@ -30,7 +30,7 @@ export function Button({ variant, icon = false, className, onClick, label = fals
                    hover:bg-(--bg-dark-mod) active:transition-none
                    active:bg-(--bg-darker-mod)"
             />
-            <div hidden={label === false}  className="flex-1">{label}</div>
+            <div hidden={label === false}  className="flex-1 mr-1.5">{label}</div>
         </button>
     )
 }
