@@ -4,35 +4,39 @@ import useUserPrefsStore from "../../stores/useUserPrefsStore.ts";
 import {Button} from "../../elements/Button.jsx";
 import useUiStore from "../../stores/useUiStore.ts";
 import FullscreenPage from "../../types/FullscreenPage.ts";
+import Card from "../../elements/Card.jsx";
 
 export default function SchedulePage() {
     const selected = useUserPrefsStore((state) => state.theme);
     const setSelected = useUserPrefsStore((state) => state.setPref);
     return (
-        <div className="h-dvh flex flex-col gap-4 items-center justify-center">
-            <div className='flex flex-row items-center justify-center'>
-                <SpringButton
-                    icon={<BrightnessAuto />}
+        <div className="h-dvh flex flex-col gap-4 items-center justify-center w-full">
+            <Card className="flex items-center justify-between w-[90%] flex-row p-8 pr-4 pl-4 gap-2">
+                <span className="text-xl">Theme:</span>
+                <div className='flex flex-row items-center justify-center'>
+                    <SpringButton
+                        icon={<BrightnessAuto />}
 
-                    label={ selected === "system" && 'System'}
-                    variant={ selected === "system" ? 'filled' : 'flat'}
-                    onClick={() => setSelected("theme", "system")}
-                />
-                <SpringButton
-                    icon={<LightMode />}
+                        label={ selected === "system" && 'System'}
+                        variant={ selected === "system" ? 'filled' : 'flat'}
+                        onClick={() => setSelected("theme", "system")}
+                    />
+                    <SpringButton
+                        icon={<LightMode />}
 
-                    label={ selected === "light" && 'Light'}
-                    variant={ selected === "light" ? 'filled' : 'flat'}
-                    onClick={() => setSelected("theme", "light")}
-                />
-                <SpringButton
-                    icon={<DarkMode />}
+                        label={ selected === "light" && 'Light'}
+                        variant={ selected === "light" ? 'filled' : 'flat'}
+                        onClick={() => setSelected("theme", "light")}
+                    />
+                    <SpringButton
+                        icon={<DarkMode />}
 
-                    label={ selected === "dark" && 'Dark'}
-                    variant={ selected === "dark" ? 'filled' : 'flat'}
-                    onClick={() => setSelected("theme", "dark")}
-                />
-            </div>
+                        label={ selected === "dark" && 'Dark'}
+                        variant={ selected === "dark" ? 'filled' : 'flat'}
+                        onClick={() => setSelected("theme", "dark")}
+                    />
+                </div>
+            </Card>
             <Button
                 label="To login page"
                 icon={<MoveGroup />}

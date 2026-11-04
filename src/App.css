@@ -12,6 +12,7 @@ body{
     --bg-color:             light-dark(#fff, #000);
     --bg-color-darker:      light-dark(#d8d8d8, #232323);
     --bg-dark-mod:          light-dark(#0001, #fff1);
+    --bg-half-dark-mod:     light-dark(#00000005, #ffffff05);
     --bg-darker-mod:        light-dark(#0002, #fff2);
     --text-color:           light-dark(#000, #fff);
     --text-color-darker:    light-dark(#7e7e7e, #7e7e7e);
@@ -23,6 +24,7 @@ body{
 
     background: var(--bg-color);
     background-image: var(--noize);
+    image-rendering: pixelated;
     background-repeat: repeat;
     background-position: center;
     color: var(--text-color);
