@@ -1,5 +1,5 @@
 import {twMerge} from "tailwind-merge";
-import {useState} from "react"
+import {useRef, useState} from "react"
 import { ArrowForward, ArrowBack, Login, Visibility, VisibilityOff, Warning, Close, Home } from '@nine-thirty-five/material-symbols-react/outlined'
 import {SpringButton} from "../elements/SpringButton.jsx"
 import {HashLoader} from "react-spinners";
@@ -17,6 +17,7 @@ export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState("")
+    const passwordRef = useRef(null)
 
     //translation
     const strings = useUiStore((state) => state.strings)
@@ -73,8 +74,19 @@ export default function LoginPage() {
                             "w-full h-full outline-0 absolute placeholder:font-bold placeholder:text-xl p-4 transition-[top,bottom] duration-200 border-b border-(--bg-dark-mod)",
                                 step === "username" ? "bottom-0" : "bottom-20"
                         )}
+                        enterKeyHint="next"
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                e.preventDefault()
+                                setStep("password")
+                                setTimeout(() => {
+                                    passwordRef.current.focus()
+                                }, 500)
+                            }
+                        }}
                     />
                     <input
+                        ref={passwordRef}
                         type={ showPassword ? "username" : "password"}
                         value={password}
                         placeholder={getString("loginpage.pwdplaceholder", strings)}
@@ -83,6 +95,13 @@ export default function LoginPage() {
                             "w-full h-full outline-0 absolute placeholder:font-bold placeholder:text-xl p-4 transition-[top,bottom] duration-200 border-t border-(--bg-dark-mod)",
                                 step === "password" ? "top-0" : "top-20"
                         )}
+                        enterKeyHint="done"
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                e.preventDefault()
+                                handleLogin()
+                            }
+                        }}
                     />
                 </div>
 
