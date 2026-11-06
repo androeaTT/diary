@@ -14,19 +14,22 @@ import 'm3-ripple/ripple.css'
 
 
 export default function App(){
-    const curUserId = useMultiUserdataStore((state) => state.currentUserId)
-    const isLoginRequired = useMultiUserdataStore((state) => state.isLoginRequired)
-    const users = useMultiUserdataStore((state) => state.users)
-    const changeUser = useUserdataStore((state) => state.changeUser)
-    const resetUser = useUserdataStore((state) => state.resetUser)
+    const curUserId         = useMultiUserdataStore((state) => state.currentUserId)
+    const isLoginRequired   = useMultiUserdataStore((state) => state.isLoginRequired)
+    const users             = useMultiUserdataStore((state) => state.users)
+    const changeUser        = useUserdataStore((state) => state.changeUser)
+    const changePrefUser    = usePreferencesStore((state) => state.changeUser)
+    const resetUser         = useUserdataStore((state) => state.resetUser)
 
     useEffect(() => {
         const user = users[curUserId]
-        if (!isLoginRequired && user)
+        if (!isLoginRequired && user){
             changeUser(user)
+            changePrefUser(curUserId)
+        }
         else
             resetUser()
-    }, [changeUser, curUserId, isLoginRequired, resetUser, users])
+    }, [changePrefUser, changeUser, curUserId, isLoginRequired, resetUser, users])
 
     const fsView = useUiStore((state) => state.currentFsView)
     const changeView = useUiStore((state) => state.changeView)

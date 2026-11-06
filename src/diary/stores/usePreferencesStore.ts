@@ -12,6 +12,7 @@ const initialUserState: Preferences = {
 interface UsersPrefStore extends Preferences{
     setPref: <K extends keyof Preferences>( key: K, value: Preferences[K] ) => void
     changeUser: (userId: string) => void
+    resetUser: () => void
 }
 
 const usePreferencesStore = create<UsersPrefStore>(
@@ -31,7 +32,8 @@ const usePreferencesStore = create<UsersPrefStore>(
                 set(newUser)
             else
                 set(initialUserState)
-        }
+        },
+        resetUser: () => { set(initialUserState) }
     })
 )
 export default usePreferencesStore;
