@@ -3,6 +3,7 @@ import ListofCards from "../../elements/ListofCards.jsx";
 import TextCard from "../../elements/TextCard.jsx";
 import useUiStore from "../../stores/useUiStore.ts";
 import ThemeSelector from "../../elements/widgets/ThemeSelector.jsx";
+import RandBackground from "../../elements/RandBackground.jsx";
 
 export default function SchedulePage() {
     const changeLanguage = useUiStore((state) => state.changeLanguage)
@@ -56,8 +57,6 @@ export default function SchedulePage() {
                     </div>
                 </TextCard>
             </ListofCards>
-
-
         </div>
     )
 }
