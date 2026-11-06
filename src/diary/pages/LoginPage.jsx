@@ -116,13 +116,15 @@ export default function LoginPage() {
                         onClick={() => setStep("username")}
 
                     />
-                    <SpringButton
+                    <Button
                         icon={
                             step === "username" ? <ArrowForward /> : <Login />
                         }
                         variant="filled"
-                        fill
-                        className={step === "username" ? "" : "ml-2 mr-2"}
+                        className={ twMerge(
+                            step === "username" ? "" : "ml-2 mr-2",
+                            "w-full"
+                        )}
                         onClick={() => step === "username" ? setStep("password") : handleLogin()}
                         label={
                             step === "username" ? getString("loginpage.next", strings) : getString("loginpage.login", strings)

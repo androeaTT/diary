@@ -1,12 +1,14 @@
 import NavBarElement from "./NavBarElement.jsx";
 import NavbarPages from "../types/NavbarPages.ts";
-import {CheckCircle, ListAlt, Person} from "@nine-thirty-five/material-symbols-react/outlined";
+import {EditorChoice, ListAlt, Person} from "@nine-thirty-five/material-symbols-react/rounded";
+import {EditorChoice as EditorChoiceF, ListAlt as ListAltF, Person as PersonF} from "@nine-thirty-five/material-symbols-react/rounded/filled";
 import useUiStore from "../stores/useUiStore.ts";
 
 export default function NavBar() {
+    const getString         = useUiStore((state) => state.getString)
+    const strings           = useUiStore((state) => state.strings)
 
-
-    const navTo = useUiStore((state) => state.navTo)
+    const navTo             = useUiStore((state) => state.navTo)
     const currentNavbarItem = useUiStore((state) => state.currentNavbarItem)
 
     return (
@@ -19,19 +21,22 @@ export default function NavBar() {
                 isActive={currentNavbarItem === NavbarPages.SCHEDULE}
                 onClick={() => navTo(NavbarPages.SCHEDULE)}
                 icon={ <ListAlt /> }
-                label="Schedule"
+                iconActive={<ListAltF />}
+                label={getString("main_navigation.schedule", strings)}
             />
             <NavBarElement
                 isActive={currentNavbarItem === NavbarPages.MARKS}
                 onClick={() => navTo(NavbarPages.MARKS)}
-                icon={ <CheckCircle /> }
-                label="Marks"
+                icon={ <EditorChoice /> }
+                iconActive={<EditorChoiceF />}
+                label={getString("main_navigation.marks", strings)}
             />
             <NavBarElement
                 isActive={currentNavbarItem === NavbarPages.PROFILE}
                 onClick={() => navTo(NavbarPages.PROFILE)}
                 icon={ <Person /> }
-                label="Profile"
+                iconActive={ <PersonF /> }
+                label={getString("main_navigation.profile", strings)}
             />
         </div>
     )

@@ -12,6 +12,8 @@
   "dependencies": {
     "@nine-thirty-five/material-symbols-react": "^2.4.0",
     "@tailwindcss/vite": "^4.3.3",
+    "eslint-plugin-react": "^7.37.5",
+    "m3-ripple": "^1.1.3",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-responsive": "^10.0.1",

@@ -1,50 +1,63 @@
-import {SpringButton} from "../../elements/SpringButton.jsx";
-import {LightMode, BrightnessAuto, DarkMode, MoveGroup} from "@nine-thirty-five/material-symbols-react/rounded";
 import useUserPrefsStore from "../../stores/useUserPrefsStore.ts";
-import {Button} from "../../elements/Button.jsx";
+import ListofCards from "../../elements/ListofCards.jsx";
+import TextCard from "../../elements/TextCard.jsx";
 import useUiStore from "../../stores/useUiStore.ts";
-import FullscreenPage from "../../types/FullscreenPage.ts";
-import Card from "../../elements/Card.jsx";
+import ThemeSelector from "../../elements/widgets/ThemeSelector.jsx";
 
 export default function SchedulePage() {
-    const selected = useUserPrefsStore((state) => state.theme);
-    const setSelected = useUserPrefsStore((state) => state.setPref);
+    const changeLanguage = useUiStore((state) => state.changeLanguage)
+    const langSelected = useUserPrefsStore((state) => state.prefLang)
+
+    const theme  = useUserPrefsStore((state) => state.theme)
+    const setPref   = useUserPrefsStore((state) => state.setPref)
+
     return (
-        <div className="h-dvh flex flex-col gap-4 items-center justify-center w-full">
-            <Card className="flex items-center justify-between w-[90%] flex-row p-8 pr-4 pl-4 gap-2">
-                <span className="text-xl">Theme:</span>
-                <div className='flex flex-row items-center justify-center'>
-                    <SpringButton
-                        icon={<BrightnessAuto />}
+        <div className="h-dvh flex flex-col gap-4 items-center justify-center w-full max-w-3xl">
+            <ListofCards
+                label="Testing Page"
+                gap={1}
+            >
+                {/*Theme card*/}
+                <TextCard
+                    label="Theme"
+                    desc="Change theme"
+                    ripple={true}
+                    onClick={() => {
+                        switch (theme) {
+                            case "system":
+                                setPref("theme", "light")
+                                break
+                            case "light":
+                                setPref("theme", "dark")
+                                break
+                            default:
+                            case "dark":
+                                setPref("theme", "system")
+                                break
+                        }
+                    }}
+                >
+                    <ThemeSelector />
+                </TextCard>
 
-                        label={ selected === "system" && 'System'}
-                        variant={ selected === "system" ? 'filled' : 'flat'}
-                        onClick={() => setSelected("theme", "system")}
-                    />
-                    <SpringButton
-                        icon={<LightMode />}
+                <TextCard
+                    label="Language swicher"
+                    desc="Click and change language"
+                    ripple={true}
+                    onClick={() => {
+                        if (langSelected === "ru")
+                            changeLanguage("en")
+                        else
+                            changeLanguage("ru")
+                    }}
+                >
+                    <div className="bg-(--text-color) text-(--bg-color) rounded-full flex items-center justify-center w-10 h-10">
+                        {langSelected.toUpperCase()}
+                    </div>
+                </TextCard>
+            </ListofCards>
 
-                        label={ selected === "light" && 'Light'}
-                        variant={ selected === "light" ? 'filled' : 'flat'}
-                        onClick={() => setSelected("theme", "light")}
-                    />
-                    <SpringButton
-                        icon={<DarkMode />}
 
-                        label={ selected === "dark" && 'Dark'}
-                        variant={ selected === "dark" ? 'filled' : 'flat'}
-                        onClick={() => setSelected("theme", "dark")}
-                    />
-                </div>
-            </Card>
-            <Button
-                label="To login page"
-                icon={<MoveGroup />}
-                variant='filled'
-                onClick={() => {
-                    useUiStore.getState().changeView(FullscreenPage.LOGIN_PAGE)
-                }}
-            />
         </div>
     )
 }

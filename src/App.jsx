@@ -6,8 +6,11 @@ import FullscreenPage from "./diary/types/FullscreenPage.ts";
 import LoginPage from "./diary/pages/LoginPage.jsx";
 import MainNavContent from "./diary/MainNavContent.jsx";
 import NavBar from "./diary/elements/NavBar.jsx";
-import "./App.css"
 import useUserPrefsStore from "./diary/stores/useUserPrefsStore.ts";
+
+import "./App.css"
+import 'm3-ripple/ripple.css'
+
 
 
 export default function App(){
@@ -60,7 +63,7 @@ export default function App(){
             )
         case FullscreenPage.MAIN_NAVIGATION:
             return (
-                <div>
+                <div className='flex w-full justify-center align-center'>
                     <NavBar />
                     <MainNavContent />
                 </div>

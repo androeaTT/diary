@@ -1,4 +1,4 @@
-import LogoutButton from "../../elements/LogoutButton.jsx";
+import LogoutButton from "../../elements/widgets/LogoutButton.jsx";
 
 export default function ProfilePage() {
     return (

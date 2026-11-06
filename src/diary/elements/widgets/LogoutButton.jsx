@@ -1,8 +1,8 @@
-import {Button} from "./Button.jsx";
+import {Button} from "../Button.jsx";
 import {Logout} from "@nine-thirty-five/material-symbols-react/rounded";
-import useUserSessionStore from "../stores/useUserSessionStore.ts";
-import useUsersStore from "../stores/useUsersStore.ts";
-import useUiStore from "../stores/useUiStore.ts";
+import useUserSessionStore from "../../stores/useUserSessionStore.ts";
+import useUsersStore from "../../stores/useUsersStore.ts";
+import useUiStore from "../../stores/useUiStore.ts";
 
 
 export default function LogoutButton({className}) {
