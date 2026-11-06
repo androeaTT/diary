@@ -2,7 +2,7 @@ import {create} from "zustand";
 import Language from "../types/Language";
 import {Preferences} from "../types/Preferances";
 import useMultiUserPrefStore from "./useMultiUserPrefStore";
-import useUserSessionStore from "./useUserSessionStore";
+import useUserdataStore from "./useUserdataStore";
 
 const initialUserState: Preferences = {
     prefLang: Language.ENGLISH,
@@ -14,7 +14,7 @@ interface UsersPrefStore extends Preferences{
     changeUser: (userId: string) => void
 }
 
-const useUserPrefsStore = create<UsersPrefStore>(
+const usePreferencesStore = create<UsersPrefStore>(
     ( set, get ) => ({
         ...initialUserState,
         setPref: (key, value) => {
@@ -22,7 +22,7 @@ const useUserPrefsStore = create<UsersPrefStore>(
 
             const { setPref, ...currentPrefs } = get();
 
-            const userId = useUserSessionStore.getState().userId
+            const userId = useUserdataStore.getState().userId
             useMultiUserPrefStore.getState().saveUser(userId, currentPrefs)
         },
         changeUser: (userId: string) => {
@@ -34,4 +34,4 @@ const useUserPrefsStore = create<UsersPrefStore>(
         }
     })
 )
-export default useUserPrefsStore;
+export default usePreferencesStore;

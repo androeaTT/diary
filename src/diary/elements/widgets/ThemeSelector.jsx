@@ -1,11 +1,11 @@
 import {BrightnessAuto, DarkMode, LightMode} from "@nine-thirty-five/material-symbols-react/rounded";
 import {BrightnessAuto as BrightnessAutoF, DarkMode as DarkModeF, LightMode as LightModeF} from "@nine-thirty-five/material-symbols-react/rounded/filled";
 import {SpringButton} from "../SpringButton.jsx";
-import useUserPrefsStore from "../../stores/useUserPrefsStore.ts";
+import usePreferencesStore from "../../stores/usePreferencesStore.ts";
 
 export default function ThemeSelector() {
-    const theme  = useUserPrefsStore((state) => state.theme)
-    const setPref   = useUserPrefsStore((state) => state.setPref)
+    const theme  = usePreferencesStore((state) => state.theme)
+    const setPref   = usePreferencesStore((state) => state.setPref)
 
     return (
         <div className='flex flex-row items-center justify-center'>

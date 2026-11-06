@@ -1,7 +1,7 @@
 import {Button} from "../Button.jsx";
 import {Logout} from "@nine-thirty-five/material-symbols-react/rounded";
-import useUserSessionStore from "../../stores/useUserSessionStore.ts";
-import useUsersStore from "../../stores/useUsersStore.ts";
+import useUserdataStore from "../../stores/useUserdataStore.ts";
+import useMultiUserdataStore from "../../stores/useMultiUserdataStore.ts";
 import useUiStore from "../../stores/useUiStore.ts";
 
 
@@ -15,7 +15,7 @@ export default function LogoutButton({className}) {
         label={getString("profile.logout", strings)}
         className={className}
         onClick={() => {
-            useUsersStore.getState().logout(useUserSessionStore.getState().userId)
+            useMultiUserdataStore.getState().logout(useUserdataStore.getState().userId)
 
         }}
     />)

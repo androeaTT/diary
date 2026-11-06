@@ -1,12 +1,12 @@
-import useUsersStore from "./diary/stores/useUsersStore.ts";
-import useUserSessionStore from "./diary/stores/useUserSessionStore.ts";
+import useMultiUserdataStore from "./diary/stores/useMultiUserdataStore.ts";
+import useUserdataStore from "./diary/stores/useUserdataStore.ts";
 import {useEffect} from "react";
 import useUiStore from "./diary/stores/useUiStore.ts";
 import FullscreenPage from "./diary/types/FullscreenPage.ts";
 import LoginPage from "./diary/pages/LoginPage.jsx";
 import MainNavContent from "./diary/MainNavContent.jsx";
 import NavBar from "./diary/elements/NavBar.jsx";
-import useUserPrefsStore from "./diary/stores/useUserPrefsStore.ts";
+import usePreferencesStore from "./diary/stores/usePreferencesStore.ts";
 
 import "./App.css"
 import 'm3-ripple/ripple.css'
@@ -14,31 +14,37 @@ import 'm3-ripple/ripple.css'
 
 
 export default function App(){
+    const curUserId = useMultiUserdataStore((state) => state.currentUserId)
+    const isLoginRequired = useMultiUserdataStore((state) => state.isLoginRequired)
+    const users = useMultiUserdataStore((state) => state.users)
+    const changeUser = useUserdataStore((state) => state.changeUser)
+    const resetUser = useUserdataStore((state) => state.resetUser)
 
     useEffect(() => {
-        useUsersStore.getState().init()
-        useUserSessionStore.getState().init()
-    }, [])
+        const user = users[curUserId]
+        if (!isLoginRequired && user)
+            changeUser(user)
+        else
+            resetUser()
+    }, [changeUser, curUserId, isLoginRequired, resetUser, users])
 
-    // login when required
-    const isLoginRequired = useUserSessionStore((state) => state.loginRequired)
     const fsView = useUiStore((state) => state.currentFsView)
+    const changeView = useUiStore((state) => state.changeView)
+
     useEffect(() => {
         if (fsView === FullscreenPage.REQUIRED_LOGIN_PAGE && !isLoginRequired) {
-            useUiStore.getState().changeView(FullscreenPage.MAIN_NAVIGATION)
+            changeView(FullscreenPage.MAIN_NAVIGATION)
         }
-    }, [fsView, isLoginRequired])
+        if (isLoginRequired && fsView === FullscreenPage.MAIN_NAVIGATION) {
+            changeView(FullscreenPage.REQUIRED_LOGIN_PAGE)
+        }
+    }, [fsView, isLoginRequired, changeView])
 
-    //user prefs sync
-    const changeUser = useUserPrefsStore((state) => state.changeUser)
-    const userId = useUserSessionStore((state) => state.userId)
-    useEffect(() => {
-        changeUser(userId)
-    }, [userId, changeUser])
+
 
 
     //theme
-    const theme = useUserPrefsStore((state) => state.theme)
+    const theme = usePreferencesStore((state) => state.theme)
     useEffect(() => {
         const root = document.getElementById("root")
         switch (theme) {
@@ -52,6 +58,8 @@ export default function App(){
                 root.removeAttribute("data-theme")
         }
     }, [theme])
+
+
 
 
 

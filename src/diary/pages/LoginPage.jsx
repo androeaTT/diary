@@ -4,10 +4,11 @@ import { ArrowForward, ArrowBack, Login, Visibility, VisibilityOff, Warning, Clo
 import {SpringButton} from "../elements/SpringButton.jsx"
 import {HashLoader} from "react-spinners";
 import {Button} from "../elements/Button.jsx";
-import useUsersStore from "../stores/useUsersStore.ts";
-import useUserSessionStore from "../stores/useUserSessionStore.ts";
+import useMultiUserdataStore from "../stores/useMultiUserdataStore.ts";
+import useUserdataStore from "../stores/useUserdataStore.ts";
 import useUiStore from "../stores/useUiStore.ts";
 import FullscreenPage from "../types/FullscreenPage.ts";
+import {convertResponse} from "../types/responses/login.ts";
 
 export default function LoginPage() {
     //states
@@ -42,9 +43,10 @@ export default function LoginPage() {
             const responseText = await response.text();
             if (!response.ok) throw new Error(responseText);
 
-            const jsonObject = JSON.parse(responseText);
-            useUsersStore.getState().add(jsonObject)
-            useUserSessionStore.getState().changeUser(jsonObject)
+            const userInfo = convertResponse( JSON.parse(responseText) );
+            useMultiUserdataStore.getState().add(userInfo)
+            useMultiUserdataStore.getState().changeUser(userInfo.userId)
+            useUserdataStore.getState().changeUser(userInfo)
             useUiStore.getState().changeView(FullscreenPage.MAIN_NAVIGATION)
         } catch (err) {
             setError(err.message || getString("loginpage.unknownError", strings))
@@ -56,7 +58,7 @@ export default function LoginPage() {
     return (
         <div className="flex flex-col justify-center items-center w-dvw h-dvh relative">
             {/* Return to the Homepage button */}
-            {!useUserSessionStore.getState().loginRequired && (
+            {!useMultiUserdataStore.getState().isLoginRequired && (
                 <div className="absolute top-4 left-4">
                     <Button variant="filled" icon={<Home size={20}/>} onClick={() => useUiStore.getState().changeView(FullscreenPage.MAIN_NAVIGATION)} />
                 </div>

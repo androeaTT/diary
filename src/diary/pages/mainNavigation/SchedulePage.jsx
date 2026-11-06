@@ -1,19 +1,20 @@
-import useUserPrefsStore from "../../stores/useUserPrefsStore.ts";
+import usePreferencesStore from "../../stores/usePreferencesStore.ts";
 import ListofCards from "../../elements/ListofCards.jsx";
 import TextCard from "../../elements/TextCard.jsx";
 import useUiStore from "../../stores/useUiStore.ts";
 import ThemeSelector from "../../elements/widgets/ThemeSelector.jsx";
 import RandBackground from "../../elements/RandBackground.jsx";
+import {Button} from "../../elements/Button.jsx";
 
 export default function SchedulePage() {
     const changeLanguage = useUiStore((state) => state.changeLanguage)
-    const langSelected = useUserPrefsStore((state) => state.prefLang)
+    const langSelected = usePreferencesStore((state) => state.prefLang)
 
-    const theme  = useUserPrefsStore((state) => state.theme)
-    const setPref   = useUserPrefsStore((state) => state.setPref)
+    const theme  = usePreferencesStore((state) => state.theme)
+    const setPref   = usePreferencesStore((state) => state.setPref)
 
     return (
-        <div className="h-dvh flex flex-col gap-4 items-center justify-center w-full max-w-3xl">
+        <div className="h-dvh flex flex-col gap-4 items-center justify-center w-full max-w-xl">
             <ListofCards
                 label="Testing Page"
                 gap={1}
@@ -56,6 +57,7 @@ export default function SchedulePage() {
                         {langSelected.toUpperCase()}
                     </div>
                 </TextCard>
+
             </ListofCards>
         </div>
     )

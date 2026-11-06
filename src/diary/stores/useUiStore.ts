@@ -4,7 +4,7 @@ import FullscreenPage from "../types/FullscreenPage";
 import Language from "../types/Language";
 import Strings from "../Strings"
 import TranslationDictionary from "../types/TranslationDictionary";
-import useUserPrefsStore from "./useUserPrefsStore";
+import usePreferencesStore from "./usePreferencesStore";
 
 interface UiState {
     //main nav
@@ -27,7 +27,7 @@ const useUiStore = create<UiState>((set, get) => ({
         set({ currentNavbarItem: newPage })
     },
 
-    currentFsView: FullscreenPage.REQUIRED_LOGIN_PAGE,
+    currentFsView: FullscreenPage.MAIN_NAVIGATION,
     changeView: (newView) => {
         set({ currentFsView: newView })
     },
@@ -36,7 +36,7 @@ const useUiStore = create<UiState>((set, get) => ({
     changeLanguage: (lang) => {
         set( {lang: lang} )
         set( {strings: Strings[lang]} )
-        useUserPrefsStore.getState().setPref("prefLang", lang)
+        usePreferencesStore.getState().setPref("prefLang", lang)
     },
     strings: Strings[Language.ENGLISH],
     getString: (path, obj) => {
