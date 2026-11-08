@@ -1,6 +1,6 @@
 import {twMerge} from "tailwind-merge";
 
-export default function ListofCards({ children, className, gap = 1, padding = 4, label = false }) {
+export default function ListofCards({ children, className, gap = 1, padding = 2, label = false }) {
     return (
         <div className={ twMerge(className, "flex gap-2 flex-col w-full", "p-" + padding ) }>
             <div

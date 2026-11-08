@@ -3,11 +3,9 @@ import ListofCards from "../../elements/ListofCards.jsx";
 import TextCard from "../../elements/TextCard.jsx";
 import useUiStore from "../../stores/useUiStore.ts";
 import ThemeSelector from "../../elements/widgets/ThemeSelector.jsx";
-import RandBackground from "../../elements/RandBackground.jsx";
-import {Button} from "../../elements/Button.jsx";
 
 export default function SchedulePage() {
-    const changeLanguage = useUiStore((state) => state.changeLanguage)
+    const changeLanguage = useUiStore((state) => state.setLangLocally)
     const langSelected = usePreferencesStore((state) => state.prefLang)
 
     const theme  = usePreferencesStore((state) => state.theme)
@@ -48,9 +46,9 @@ export default function SchedulePage() {
                     ripple={true}
                     onClick={() => {
                         if (langSelected === "ru")
-                            changeLanguage("en")
+                            usePreferencesStore.getState().setPref("prefLang", "en")
                         else
-                            changeLanguage("ru")
+                            usePreferencesStore.getState().setPref("prefLang", "ru")
                     }}
                 >
                     <div className="bg-(--text-color) text-(--bg-color) rounded-full flex items-center justify-center w-10 h-10">

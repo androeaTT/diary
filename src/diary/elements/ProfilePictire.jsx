@@ -1,36 +1,29 @@
-import RandBackground from "./RandBackground.jsx";
+import { Person } from '@nine-thirty-five/material-symbols-react/rounded'
 import {twMerge} from "tailwind-merge";
 
-export default function ProfilePictire({ fullName, className }) {
-    if (!fullName || fullName.length < 1) return null;
+export default function ProfilePictire({ className }) {
     return (
-        <div className={twMerge(className,
+        <div className={twMerge(
             "h-full aspect-square flex items-center justify-center",
-            "rounded-full overflow-hidden outline-2 outline-offset-2",
-            "mt-5 outline-(--text-color-darker) outline-solid text-white"
+            "rounded-full overflow-hidden",
+            "bg-(--text-color) text-(--bg-color)",
+            className
         )}>
-            <RandBackground
-                className='h-full w-full pt-2 flex items-center justify-center'
-                seed={fullName}
-                s={34} l={48}
-            >
                 <svg
                     viewBox="0 0 100 100"
-                    width="100%"
-                    height="100%"
+                    width="60%"
+                    height="60%"
                     preserveAspectRatio="none"
                 >
-                    <text
-                        x="50%"
-                        y="70%"
-                        fontSize="70"
-                        textAnchor="middle"
-                        fill="currentColor"
-                    >
-                        {fullName?.charAt(0)?.toUpperCase()}
-                    </text>
+                        <Person
+                            x="0%"
+                            y="0%"
+                            width="100%"
+                            height="100%"
+                            textAnchor="middle"
+                            fill="currentColor"
+                        />
                 </svg>
-            </RandBackground>
         </div>
     )
 }

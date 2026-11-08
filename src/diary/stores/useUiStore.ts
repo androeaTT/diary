@@ -15,7 +15,7 @@ interface UiState {
     changeView: (newView: FullscreenPage) => void
     //translation
     lang: Language
-    changeLanguage: (lang: Language) => void
+    setLangLocally: (lang: Language) => void
     strings: TranslationDictionary | string,
     getString: (path: string, obj: any) => string
 }
@@ -33,10 +33,9 @@ const useUiStore = create<UiState>((set, get) => ({
     },
 
     lang: Language.ENGLISH,
-    changeLanguage: (lang) => {
+    setLangLocally: (lang) => {
         set( {lang: lang} )
         set( {strings: Strings[lang]} )
-        usePreferencesStore.getState().setPref("prefLang", lang)
     },
     strings: Strings[Language.ENGLISH],
     getString: (path, obj) => {

@@ -31,8 +31,8 @@ export default function App(){
             resetUser()
     }, [changePrefUser, changeUser, curUserId, isLoginRequired, resetUser, users])
 
-    const fsView = useUiStore((state) => state.currentFsView)
-    const changeView = useUiStore((state) => state.changeView)
+    const fsView            = useUiStore((state) => state.currentFsView)
+    const changeView        = useUiStore((state) => state.changeView)
 
     useEffect(() => {
         if (fsView === FullscreenPage.REQUIRED_LOGIN_PAGE && !isLoginRequired) {
@@ -43,8 +43,11 @@ export default function App(){
         }
     }, [fsView, isLoginRequired, changeView])
 
-
-
+    const changeLang            = useUiStore((state) => state.setLangLocally)
+    const lang                  = usePreferencesStore((state) => state.prefLang)
+    useEffect(() => {
+        changeLang(lang)
+    }, [changeLang, lang])
 
     //theme
     const theme = usePreferencesStore((state) => state.theme)

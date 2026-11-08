@@ -65,89 +65,84 @@ export default function LoginPage() {
                 </div>
             )}
 
-            <Card className="p-8 pt-0 rounded-4xl">
-                <div className="flex flex-col justify-center items-center gap-10">
-                    {/*Input entries*/}
-                    <div className="relative w-full min-w-2xs h-20 overflow-hidden">
-                        <input
-                            type="text"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            placeholder={getString("loginpage.nameplaceholder", strings)}
-                            className={twMerge(
-                                "w-full h-full outline-0 absolute placeholder:font-bold placeholder:text-xl p-4 transition-[top,bottom] duration-200 border-b border-(--bg-dark-mod)",
-                                    step === "username" ? "bottom-0" : "bottom-20"
-                            )}
-                            enterKeyHint="next"
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    e.preventDefault()
-                                    setStep("password")
-                                    setTimeout(() => {
-                                        passwordRef.current.focus()
-                                    }, 500)
-                                }
-                            }}
-                        />
-                        <input
-                            ref={passwordRef}
-                            type={ showPassword ? "username" : "password"}
-                            value={password}
-                            placeholder={getString("loginpage.pwdplaceholder", strings)}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className={twMerge(
-                                "w-full h-full outline-0 absolute placeholder:font-bold placeholder:text-xl p-4 transition-[top,bottom] duration-200 border-t border-(--bg-dark-mod)",
-                                    step === "password" ? "top-0" : "top-20"
-                            )}
-                            enterKeyHint="done"
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    e.preventDefault()
-                                    handleLogin()
-                                }
-                            }}
-                        />
-                    </div>
-
-                    {/*Back, Next/Login, Show buttons*/}
-                    <div className="flex w-full box-border">
-                        <SpringButton
-                            icon={
-                                <ArrowBack />
+            <div className="flex flex-col justify-center items-center gap-10">
+                {/*Input entries*/}
+                <div className="relative w-full min-w-2xs h-20 overflow-hidden">
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder={getString("loginpage.nameplaceholder", strings)}
+                        className={twMerge(
+                            "w-full h-full outline-0 absolute placeholder:font-bold placeholder:text-xl p-4 transition-[top,bottom] duration-200 border-b border-(--bg-dark-mod)",
+                            step === "username" ? "bottom-0" : "bottom-20"
+                        )}
+                        enterKeyHint="next"
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                e.preventDefault()
+                                setStep("password")
+                                setTimeout(() => {
+                                    passwordRef.current.focus()
+                                }, 500)
                             }
-                            open={step === "password" }
-                            variant="flat"
-                            onClick={() => setStep("username")}
-
-                        />
-                        <Button
-                            icon={
-                                step === "username" ? <ArrowForward /> : <Login />
+                        }}
+                    />
+                    <input
+                        ref={passwordRef}
+                        type={ showPassword ? "username" : "password"}
+                        value={password}
+                        placeholder={getString("loginpage.pwdplaceholder", strings)}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className={twMerge(
+                            "w-full h-full outline-0 absolute placeholder:font-bold placeholder:text-xl p-4 transition-[top,bottom] duration-200 border-t border-(--bg-dark-mod)",
+                            step === "password" ? "top-0" : "top-20"
+                        )}
+                        enterKeyHint="done"
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                e.preventDefault()
+                                handleLogin()
                             }
-                            variant="filled"
-                            className={ twMerge(
-                                step === "username" ? "" : "ml-2 mr-2",
-                                "w-full"
-                            )}
-                            onClick={() => step === "username" ? setStep("password") : handleLogin()}
-                            label={
-                                step === "username" ? getString("loginpage.next", strings) : getString("loginpage.login", strings)
-                            }
-                        />
-                        <SpringButton
-                            icon={
-                                showPassword ?
-                                    <Visibility />    :
-                                    <VisibilityOff />
-                            }
-                            open={step === "password"}
-                            variant={ showPassword ? "filled" : "flat"}
-                            onClick={() => setShowPassword(!showPassword)}
-
-                        />
-                    </div>
+                        }}
+                    />
                 </div>
-            </Card>
+                {/*Back, Next/Login, Show buttons*/}
+                <div className="flex w-full box-border">
+                    <SpringButton
+                        icon={
+                        <ArrowBack />
+                    }
+                        open={step === "password" }
+                        variant="flat"
+                        onClick={() => setStep("username")}
+                    />
+                    <Button
+                        icon={
+                        step === "username" ? <ArrowForward /> : <Login />
+                    }
+                        variant="filled"
+                        className={ twMerge(
+                            step === "username" ? "" : "ml-2 mr-2",
+                            "w-full"
+                        )}
+                        onClick={() => step === "username" ? setStep("password") : handleLogin()}
+                        label={
+                        step === "username" ? getString("loginpage.next", strings) : getString("loginpage.login", strings)
+                    }
+                    />
+                    <SpringButton
+                        icon={
+                        showPassword ?
+                            <Visibility />    :
+                            <VisibilityOff />
+                    }
+                        open={step === "password"}
+                        variant={ showPassword ? "filled" : "flat"}
+                        onClick={() => setShowPassword(!showPassword)}
+                    />
+                </div>
+            </div>
 
             {/*Error Sheet*/}
             <div
