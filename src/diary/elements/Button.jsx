@@ -16,7 +16,7 @@ export function Button({ variant, icon = false, className, onClick, label = fals
                 "overflow-hidden bg-center bg-contain bg-repeat",
                 "flex items-center relative justify-center",
                 "pt-3 pb-3 pl-3 pr-3 min-h-10 rounded-full h-max",
-                "gap-2 relative",
+                "gap-2 relative outline-0",
                 "transition-[width] duration-200 ease-in-out",
                 variantClasses[variant],
                 className

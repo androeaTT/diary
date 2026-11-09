@@ -13,7 +13,7 @@ export default function NavBar() {
 
     return (
         <div className=
-            "absolute flex w-fit flex-row
+            "absolute flex w-fit flex-row z-2
             left-0 right-0 ml-auto mr-auto bottom-4 gap-1
             bg-(--bg-dark-mod) p-2 rounded-full backdrop-blur-xl"
         >

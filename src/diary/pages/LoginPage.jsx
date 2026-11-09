@@ -30,7 +30,7 @@ export default function LoginPage() {
         setIsLoading(true);
 
         try {
-            const response = await fetch("http://" + window.location.hostname + ":34006" + "/api/auth/loginStudent", {
+            const response = await fetch("http://" + "192.168.1.237" + ":34006" + "/api/auth/loginStudent", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -4,9 +4,6 @@ import Card from "../../elements/Card.jsx";
 import {twMerge} from "tailwind-merge";
 import {KeyboardArrowRight} from "@nine-thirty-five/material-symbols-react/rounded";
 import {Ripple} from "m3-ripple";
-import ListofCards from "../../elements/ListofCards.jsx";
-import TextCard from "../../elements/TextCard.jsx";
-import useUiStore from "../../stores/useUiStore.ts";
 import StudentInfo from "../../elements/widgets/StudentInfo.jsx";
 
 
@@ -20,7 +17,7 @@ export default function ProfilePage() {
                 className={twMerge(
                     "flex flex-row items-center justify-between",
                     "rounded-4xl overflow-hidden w-full gap-4",
-                    "p-4 mt-28"
+                    "p-4"
                 )}
             >
                 <ProfilePictire className="h-14" />
