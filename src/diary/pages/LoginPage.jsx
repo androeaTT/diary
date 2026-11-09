@@ -9,7 +9,7 @@ import useUserdataStore from "../stores/useUserdataStore.ts";
 import useUiStore from "../stores/useUiStore.ts";
 import FullscreenPage from "../types/FullscreenPage.ts";
 import {convertResponse} from "../types/responses/login.ts";
-import Card from "../elements/Card.jsx";
+import {sNetwork} from "../Network.js";
 
 export default function LoginPage() {
     //states
@@ -26,35 +26,31 @@ export default function LoginPage() {
     const getString = useUiStore((state) => state.getString)
 
     // login function
-    const handleLogin = async () => {
-        setIsLoading(true);
+    function handleLogin() {
+        setIsLoading(true)
+            sNetwork.login(username, password)
+                .then((responseText) => {
+                    let responseData;
+                    try {
+                        responseData = JSON.parse(responseText);
+                    } catch (parseError) {
+                        throw new Error(responseText, { cause: parseError });
+                    }
 
-        try {
-            const response = await fetch("http://" + "192.168.1.237" + ":34006" + "/api/auth/loginStudent", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    "username": username,
-                    "password": password,
-                }),
-            })
+                    const userInfo = convertResponse(responseData);
 
-            const responseText = await response.text();
-            if (!response.ok) throw new Error(responseText);
+                    useMultiUserdataStore.getState().add(userInfo)
+                    useMultiUserdataStore.getState().changeUser(userInfo.userId)
+                    useUserdataStore.getState().changeUser(userInfo)
+                    useUiStore.getState().changeView(FullscreenPage.MAIN_NAVIGATION)
 
-            const userInfo = convertResponse( JSON.parse(responseText) );
-            useMultiUserdataStore.getState().add(userInfo)
-            useMultiUserdataStore.getState().changeUser(userInfo.userId)
-            useUserdataStore.getState().changeUser(userInfo)
-            useUiStore.getState().changeView(FullscreenPage.MAIN_NAVIGATION)
-        } catch (err) {
-            setError(err.message || getString("loginpage.unknownError", strings))
-        } finally {
-            setIsLoading(false)
-        }
+                }).catch(err => {
+                    setError(err.message || getString("loginpage.unknownError", strings))
+                }).finally(
+                    () => setIsLoading(false)
+                )
     }
+
 
     return (
         <div className="flex flex-col justify-center items-center w-dvw h-dvh relative">
