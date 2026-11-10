@@ -17,6 +17,7 @@ body{
     --bg-dark-mod:          light-dark(#0001, #fff1);
     --bg-half-dark-mod:     light-dark(#00000005, #ffffff05);
     --bg-darker-mod:        light-dark(#0002, #fff2);
+    --bg-navbar:            light-dark(#ececec, #151515);
     --text-color:           light-dark(#000, #fff);
     --text-color-darker:    light-dark(#7e7e7e, #7e7e7e);
     --text-font-size:       16px;
@@ -26,7 +27,7 @@ body{
     --noize: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj4KICAgPGZpbHRlciBpZD0ibiIgeD0iMCIgeT0iMCI+CiAgICAgIDxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjc1IiBzdGl0Y2hUaWxlcz0ic3RpdGNoIiAvPgogICAgICA8ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIiAvPgogICA8L2ZpbHRlcj4KICAgPHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIGZpbHRlcj0idXJsKCNuKSIgb3BhY2l0eT0iMC4wNSIgLz4KPC9zdmc+);
 
     background: var(--bg-color);
-    background-image: var(--noize);
+    /*background-image: var(--noize);*/
     image-rendering: pixelated;
     background-repeat: repeat;
     background-position: center;
