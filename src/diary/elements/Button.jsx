@@ -8,6 +8,7 @@ export function Button({ variant, icon = false, className, onClick, label = fals
         "accent-filled": "bg-(--accent) text-(--text-color)",
         "err-filled": "bg-(--err-color-bg) text-(--text-color)",
         flat: "bg-transparent text-(--text-color)",
+        neutral: "bg-(--bg-neutral) text-(--text-color)",
     };
 
     return (

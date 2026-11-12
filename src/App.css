@@ -5,6 +5,7 @@ html{
 }
 body{
     margin: 0;
+    background-color: #000;
 }
 #root[data-theme="light"] { color-scheme: light }
 #root[data-theme="dark"] { color-scheme: dark }
@@ -17,7 +18,7 @@ body{
     --bg-dark-mod:          light-dark(#0001, #fff1);
     --bg-half-dark-mod:     light-dark(#00000005, #ffffff05);
     --bg-darker-mod:        light-dark(#0002, #fff2);
-    --bg-navbar:            light-dark(#ececec, #151515);
+    --bg-neutral:            light-dark(#ececec, #151515);
     --text-color:           light-dark(#000, #fff);
     --text-color-darker:    light-dark(#7e7e7e, #7e7e7e);
     --text-font-size:       16px;
@@ -35,3 +36,4 @@ body{
     font-size: var(--text-font-size);
     font-family: "Roboto";
 }
+::view-transition-group(*) { animation-duration: 0s; }

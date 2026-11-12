@@ -6,7 +6,7 @@ import {KeyboardArrowRight} from "@nine-thirty-five/material-symbols-react/round
 import {Ripple} from "m3-ripple";
 import StudentInfo from "../../elements/widgets/StudentInfo.jsx";
 import {ViewTransition} from "react";
-import {SPRING, VERT_SLIDE} from "../../animations.js";
+import {SPRING, SLIDE_UP} from "../../animations.js";
 
 
 export default function ProfilePage() {
@@ -20,7 +20,7 @@ export default function ProfilePage() {
             enter="auto"
             exit="none"
             onEnter={(instance) => {
-                const anim = instance.new.animate( VERT_SLIDE, SPRING );
+                const anim = instance.new.animate( SLIDE_UP, SPRING );
                 return () => anim.cancel();
             }}
         >

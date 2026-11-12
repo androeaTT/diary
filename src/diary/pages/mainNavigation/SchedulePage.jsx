@@ -4,7 +4,7 @@ import TextCard from "../../elements/TextCard.jsx";
 import useUiStore from "../../stores/useUiStore.ts";
 import ThemeSelector from "../../elements/widgets/ThemeSelector.jsx";
 import {ViewTransition} from "react";
-import {SPRING, VERT_SLIDE} from "../../animations.js";
+import {SPRING, SLIDE_UP} from "../../animations.js";
 
 export default function SchedulePage() {
     const langSelected = usePreferencesStore((state) => state.prefLang)
@@ -19,7 +19,7 @@ export default function SchedulePage() {
             enter="auto"
             exit="none"
             onEnter={(instance) => {
-                const anim = instance.new.animate( VERT_SLIDE, SPRING );
+                const anim = instance.new.animate( SLIDE_UP, SPRING );
                 return () => anim.cancel();
             }}
         >
