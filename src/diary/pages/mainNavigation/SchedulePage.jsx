@@ -1,74 +1,16 @@
-import usePreferencesStore from "../../stores/usePreferencesStore.ts";
-import ListofCards from "../../elements/ListofCards.jsx";
-import TextCard from "../../elements/TextCard.jsx";
-import useUiStore from "../../stores/useUiStore.ts";
-import ThemeSelector from "../../elements/widgets/ThemeSelector.jsx";
-import {ViewTransition} from "react";
-import {SPRING, SLIDE_UP} from "../../animations.js";
+import MainNavPage from "./MainNavPage.jsx";
+import {useState} from "react";
+import SmoothWidthBox from "../../elements/SmoothWidthBox.jsx";
+import {twMerge} from "tailwind-merge";
 
 export default function SchedulePage() {
-    const langSelected = usePreferencesStore((state) => state.prefLang)
-
-    const theme  = usePreferencesStore((state) => state.theme)
-    const setPref   = usePreferencesStore((state) => state.setPref)
 
     return (
-        <ViewTransition
-            default="none"
-            /* CSS driven cross fade defaults */
-            enter="auto"
-            exit="none"
-            onEnter={(instance) => {
-                const anim = instance.new.animate( SLIDE_UP, SPRING );
-                return () => anim.cancel();
-            }}
-        >
-            <div className="h-dvh flex flex-col gap-4 items-center justify-center w-full max-w-xl">
-                <ListofCards
-                    label="Testing Page"
-                    gap={1}
-                >
-                    {/*Theme card*/}
-                    <TextCard
-                        label="Theme"
-                        desc="Change theme"
-                        ripple={true}
-                        onClick={() => {
-                            switch (theme) {
-                                case "system":
-                                    setPref("theme", "light")
-                                    break
-                                case "light":
-                                    setPref("theme", "dark")
-                                    break
-                                default:
-                                case "dark":
-                                    setPref("theme", "system")
-                                    break
-                            }
-                        }}
-                    >
-                        <ThemeSelector />
-                    </TextCard>
+        <MainNavPage className="" >
+            <div className="w-full flex flex-row items-stretch justify-evenly gap-1">
 
-                    <TextCard
-                        label="Language swicher"
-                        desc="Click and change language"
-                        ripple={true}
-                        onClick={() => {
-                            if (langSelected === "ru")
-                                usePreferencesStore.getState().setPref("prefLang", "en")
-                            else
-                                usePreferencesStore.getState().setPref("prefLang", "ru")
-                        }}
-                    >
-                        <div className="bg-(--text-color) text-(--bg-color) rounded-full flex items-center justify-center w-10 h-10">
-                            {langSelected.toUpperCase()}
-                        </div>
-                    </TextCard>
+            </div>
 
-            </ListofCards>
-        </div>
-        </ViewTransition>
+        </MainNavPage>
     )
 }

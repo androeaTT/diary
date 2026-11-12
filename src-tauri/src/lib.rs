@@ -51,8 +51,16 @@ async fn proxy_get(path: &str, auth: Option<String>, query: Option<Vec<(String, 
     }
 
     let response = req.send().await.map_err(|e| e.to_string())?;
-    let data = response.json::<Value>().await.map_err(|e| e.to_string())?;
-    
+    let status = response.status();
+    let body = response.text().await.map_err(|e| e.to_string())?;
+    let data = serde_json::from_str::<Value>(&body).map_err(|_| {
+        format!("Upstream returned a non-JSON response (HTTP {})", status)
+    })?;
+
+    if !status.is_success() {
+        return Err(format!("Upstream request failed (HTTP {})", status));
+    }
+
     Ok(data)
 }
 

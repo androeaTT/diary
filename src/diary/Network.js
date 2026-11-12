@@ -50,7 +50,11 @@ export default class Network {
                 method: "GET",
                 headers: { "Authorization": token },
             });
-            return await response.json();
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error ?? `Request failed with status ${response.status}`);
+            }
+            return data;
         }
     }
 
@@ -130,23 +134,6 @@ export default class Network {
             });
         } else {
             const url = new URL(this.address + "/api/student/gradebook/term/4");
-            Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-            const response = await fetch(url.toString(), {
-                method: "GET",
-                headers: { "Authorization": token },
-            });
-            return await response.json();
-        }
-    }
-
-    async getHW(token, params = {}) {
-        if (this.isTauri) {
-            return await invoke('get_homework', {
-                auth: token,
-                query: Object.keys(params).length > 0 ? Object.entries(params) : null,
-            });
-        } else {
-            const url = new URL(this.address + "/api/student/homework/list");
             Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
             const response = await fetch(url.toString(), {
                 method: "GET",

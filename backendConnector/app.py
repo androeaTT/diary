@@ -9,6 +9,37 @@ app = Flask(__name__)
 CORS(app)
 
 
+def forward_get(path):
+    headers = {"Authorization": request.headers.get("Authorization")}
+    try:
+        response = requests.get(
+            hosturl + path,
+            params=request.args,
+            headers=headers,
+            timeout=10,
+        )
+    except requests.exceptions.RequestException as e:
+        app.logger.error("Upstream request failed for %s: %s", path, e)
+        return {"error": "Upstream request failed"}, 502
+
+    try:
+        data = response.json()
+    except requests.exceptions.JSONDecodeError:
+        app.logger.error(
+            "Upstream returned non-JSON response for %s (HTTP %s, Content-Type %s)",
+            path,
+            response.status_code,
+            response.headers.get("Content-Type"),
+        )
+        status = response.status_code if response.status_code >= 400 else 502
+        return {
+            "error": "Upstream returned a non-JSON response",
+            "upstream_status": response.status_code,
+        }, status
+
+    return data, response.status_code
+
+
 @app.route("/api/auth/loginStudent", methods=["POST"])
 def loginStudent():
     if request.is_json:
@@ -36,46 +67,32 @@ def loginStudent():
 
 @app.route("/api/student/qmarks/all", methods=["GET"])
 def getQmarks():
-    headers = { "Authorization": request.headers.get("Authorization") }
-    r = requests.get( hosturl + "/api/student/qmarks/all", params=request.args, headers=headers )
-    return r.json()
+    return forward_get("/api/student/qmarks/all")
 
 @app.route("/api/student/gradebook/list", methods=["GET"])
 def getGradeList():
-    headers = { "Authorization": request.headers.get("Authorization") }
-    r = requests.get( hosturl + "/api/student/gradebook/list", params=request.args, headers=headers )
-    return r.json()
+    return forward_get("/api/student/gradebook/list")
 
 @app.route("/api/student/gradebook/term/1", methods=["GET"])
 def getGradeterm1():
-    headers = { "Authorization": request.headers.get("Authorization") }
-    r = requests.get( hosturl + "/api/student/gradebook/term/1", params=request.args, headers=headers )
-    return r.json()
+    return forward_get("/api/student/gradebook/term/1")
 
 @app.route("/api/student/gradebook/term/2", methods=["GET"])
 def getGradeterm2():
-    headers = { "Authorization": request.headers.get("Authorization") }
-    r = requests.get( hosturl + "/api/student/gradebook/term/2", params=request.args, headers=headers )
-    return r.json()
+    return forward_get("/api/student/gradebook/term/2")
 
 @app.route("/api/student/gradebook/term/3", methods=["GET"])
 def getGradeterm3():
-    headers = { "Authorization": request.headers.get("Authorization") }
-    r = requests.get( hosturl + "/api/student/gradebook/term/3", params=request.args, headers=headers )
-    return r.json()
+    return forward_get("/api/student/gradebook/term/3")
 
 @app.route("/api/student/gradebook/term/4", methods=["GET"])
 def getGradeterm4():
-    headers = { "Authorization": request.headers.get("Authorization") }
-    r = requests.get( hosturl + "/api/student/gradebook/term/4", params=request.args, headers=headers )
-    return r.json()
+    return forward_get("/api/student/gradebook/term/4")
 
 
 @app.route("/api/student/homework/list", methods=["GET"])
 def getHW():
-    headers = { "Authorization": request.headers.get("Authorization") }
-    r = requests.get( hosturl + "/api/student/homework/list", params=request.args, headers=headers )
-    return r.json()
+    return forward_get("/api/student/homework/list")
 
 
 if __name__ == "__main__":
