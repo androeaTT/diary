@@ -10,6 +10,7 @@ export type ScheduleItem = {
     subjectId   : UUID,
     taskId      : UUID,
     topicId     : UUID,
+    userId      : UUID
 };
 
 type ScheduleItems = {

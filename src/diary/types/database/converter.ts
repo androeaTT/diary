@@ -10,16 +10,37 @@ import {ScheduleItem} from "./ScheduleItems";
 import {toMarksValueEnum} from "../MarksValue";
 import {toTermEnum} from "../Term";
 
-interface Converted {
+export interface ConvertedTopic {
+    object: Topic
     id: UUID,
-    object: Topic | Task | Subject | Classroom | Mark | ScheduleItem
 }
-interface TeacherConverted {
-    pin: string,
-    object: Teacher
+export interface ConvertedTask {
+    object: Task
+    id: UUID,
+}
+export interface ConvertedSubject {
+    object: Subject
+    id: UUID,
+}
+export interface ConvertedClassroom {
+    object: Classroom
+    id: UUID,
 }
 
-export function convertTopic    (resp: ItemResponse): Converted | undefined{
+export interface ConvertedMark {
+    object: Mark
+    id: UUID,
+}
+export interface ConvertedScheduleItem {
+    object: ScheduleItem
+    id: UUID,
+}
+export interface ConvertedTeacher {
+    object: Teacher
+    pin: string,
+}
+
+export function convertTopic    (resp: ItemResponse): ConvertedTopic | undefined{
     const body = resp.topic?.name
     const date = resp.topic?.lessonDay
     if (!body || !date)
@@ -41,7 +62,7 @@ export function convertTopic    (resp: ItemResponse): Converted | undefined{
     }
 }
 
-export function convertTask     (resp: ItemResponse): Converted | undefined{
+export function convertTask     (resp: ItemResponse): ConvertedTask | undefined{
     const body = resp.task?.name
     const date = resp.task?.lessonDay
     if (!body || !date)
@@ -63,7 +84,7 @@ export function convertTask     (resp: ItemResponse): Converted | undefined{
     }
 }
 
-export function convertSubject  (resp: ItemResponse): Converted | undefined{
+export function convertSubject  (resp: ItemResponse): ConvertedSubject | undefined{
     const name = resp.subject?.nameRu
     const short = resp.subject?.shortRu
     const grade = resp.subject?.grade
@@ -86,7 +107,7 @@ export function convertSubject  (resp: ItemResponse): Converted | undefined{
     }
 }
 
-export function convertClassroom(resp: ItemResponse): Converted | undefined {
+export function convertClassroom(resp: ItemResponse): ConvertedClassroom | undefined {
     const name = resp.roomData?.roomName
     const rawFloor = resp.roomData?.floor;
     const floor = (rawFloor !== null && rawFloor !== undefined && String(rawFloor).trim() !== '')
@@ -111,11 +132,22 @@ export function convertClassroom(resp: ItemResponse): Converted | undefined {
     }
 }
 
-export function convertMark     (resp: ItemResponse): Converted | undefined {
+export function convertMark     (resp: ItemResponse, userId: UUID): ConvertedMark | undefined {
     const rawMark = resp.marks?.[0]?.mark
     const date = resp.marks?.[0]?.created_at
+    const subjectId = resp.subject?.code
+    const rawTeacherPin = resp.teacher?.pin
+
     const rawTerm = resp?.term
-    if (rawMark === undefined || rawMark === null || !date || rawTerm === undefined || rawTerm === null )
+    if (
+        rawMark === undefined   || rawMark === null ||
+        !date                   || !subjectId       ||
+        rawTerm === undefined   || rawTerm === null ||
+        rawTeacherPin === null  || rawTeacherPin == undefined
+    ) return undefined
+
+    const teacherPin = rawTeacherPin.toString()
+    if (teacherPin === undefined)
         return undefined
 
     const mark = toMarksValueEnum(rawMark)
@@ -134,17 +166,53 @@ export function convertMark     (resp: ItemResponse): Converted | undefined {
     if (!isUUID(id))
         return undefined
 
+    if (!isUUID(subjectId))
+        return undefined
+
+
+
     return {
         id: id,
         object:{
             mark: mark,
             date: date,
-            term: term
+            term: term,
+            subjectId: subjectId,
+            userId: userId,
+            teacherPin: teacherPin
         }
     }
 }
 
-export function convertItem     (resp: ItemResponse): Converted | undefined {
+export function convertTeacher  (resp: ItemResponse): ConvertedTeacher | undefined {
+    const teacher = resp.teacher
+    if (teacher === null)
+        return undefined
+
+    const firstName     = teacher.firstName
+    const lastName      = teacher.lastName
+    const midName       = teacher.midName
+    if (!firstName || !lastName || !midName)
+        return undefined
+
+    const rawPin = teacher.pin
+    if ( rawPin === null )
+        return undefined
+    const pin = String(rawPin)
+    if ( !pin )
+        return undefined
+
+    return {
+        pin: pin,
+        object: {
+            firstName   : firstName,
+            lastName    : lastName,
+            midName     : midName,
+        }
+    }
+}
+
+export function convertItem     (resp: ItemResponse, userId: UUID): ConvertedScheduleItem | undefined {
     const date = resp.lessonDay
     const startTime = resp.startTime
     const endTime = resp.endTime
@@ -201,39 +269,12 @@ export function convertItem     (resp: ItemResponse): Converted | undefined {
             startTime: startTime,
             endTime: endTime,
 
+            userId: userId,
             teacherPin: pin,
             classroomId: classroomId,
             subjectId: subjectId,
             taskId: taskId,
             topicId: topicId
-        }
-    }
-}
-
-export function convertTeacher  (resp: ItemResponse): TeacherConverted | undefined {
-    const teacher = resp.teacher
-    if (teacher === null)
-        return undefined
-
-    const firstName     = teacher.firstName
-    const lastName      = teacher.lastName
-    const midName       = teacher.midName
-    if (!firstName || !lastName || !midName)
-        return undefined
-
-    const rawPin = teacher.pin
-    if ( rawPin === null )
-        return undefined
-    const pin = String(rawPin)
-    if ( !pin )
-        return undefined
-
-    return {
-        pin: pin,
-        object: {
-            firstName   : firstName,
-            lastName    : lastName,
-            midName     : midName,
         }
     }
 }

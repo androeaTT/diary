@@ -11,6 +11,7 @@ import usePreferencesStore from "./diary/stores/usePreferencesStore.ts";
 import "./App.css"
 import 'm3-ripple/ripple.css'
 import {sNetwork} from "./diary/Network.js";
+import useBackendDatabaseStore from "./diary/stores/useBackendDatabaseStore.ts";
 
 
 
@@ -68,12 +69,8 @@ export default function App(){
 
     const token = useUserdataStore((state) => state.token)
     useEffect(() => {
-        if (token.length > 10){
-            sNetwork.getGradeList(`Bearer ${token}`, {"start_date":"2026-09-16","end_date":"2026-11-27"}).then((json) => {
-                console.log(json)
-            }).catch((error) => {
-                console.error("Failed to load quarter marks:", error)
-            })
+        if (token.length > 10) {
+            useBackendDatabaseStore.getState().update()
         }
     }, [token]);
 

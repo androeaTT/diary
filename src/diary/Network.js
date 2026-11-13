@@ -1,5 +1,12 @@
 import { invoke } from '@tauri-apps/api/core';
 
+function serializeQuery(params) {
+    const entries = Object.entries(params);
+    return entries.length > 0
+        ? entries.map(([key, value]) => [key, String(value)])
+        : null;
+}
+
 export default class Network {
     isTauri
     address = "http://" + window.location.hostname + ":34006"
@@ -41,7 +48,7 @@ export default class Network {
         if (this.isTauri) {
             return await invoke('get_qmarks', {
                 auth: token,
-                query: Object.keys(params).length > 0 ? Object.entries(params) : null,
+                query: serializeQuery(params),
             });
         } else {
             const url = new URL(this.address + "/api/student/qmarks/all");
@@ -62,7 +69,7 @@ export default class Network {
         if (this.isTauri) {
             return await invoke('get_grade_list', {
                 auth: token,
-                query: Object.keys(params).length > 0 ? Object.entries(params) : null,
+                query: serializeQuery(params),
             });
         } else {
             const url = new URL(this.address + "/api/student/gradebook/list");
@@ -79,7 +86,7 @@ export default class Network {
         if (this.isTauri) {
             return await invoke('get_grade_term_1', {
                 auth: token,
-                query: Object.keys(params).length > 0 ? Object.entries(params) : null,
+                query: serializeQuery(params),
             });
         } else {
             const url = new URL(this.address + "/api/student/gradebook/term/1");
@@ -96,7 +103,7 @@ export default class Network {
         if (this.isTauri) {
             return await invoke('get_grade_term_2', {
                 auth: token,
-                query: Object.keys(params).length > 0 ? Object.entries(params) : null,
+                query: serializeQuery(params),
             });
         } else {
             const url = new URL(this.address + "/api/student/gradebook/term/2");
@@ -113,7 +120,7 @@ export default class Network {
         if (this.isTauri) {
             return await invoke('get_grade_term_3', {
                 auth: token,
-                query: Object.keys(params).length > 0 ? Object.entries(params) : null,
+                query: serializeQuery(params),
             });
         } else {
             const url = new URL(this.address + "/api/student/gradebook/term/3");
@@ -130,7 +137,7 @@ export default class Network {
         if (this.isTauri) {
             return await invoke('get_grade_term_4', {
                 auth: token,
-                query: Object.keys(params).length > 0 ? Object.entries(params) : null,
+                query: serializeQuery(params),
             });
         } else {
             const url = new URL(this.address + "/api/student/gradebook/term/4");
