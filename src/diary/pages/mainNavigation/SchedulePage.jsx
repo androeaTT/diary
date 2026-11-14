@@ -5,7 +5,7 @@ import ListofCards from "../../elements/ListofCards.jsx";
 import TextCard from "../../elements/TextCard.jsx";
 
 export default function SchedulePage() {
-    const [curDate, setCurDate] = useState(Date.parse("2026-11-09"))
+    const [curDate, setCurDate] = useState(Date.parse("2026-11-16"))
     const dateRef = useRef(null)
 
     const items = useBackendDatabaseStore((state) => state.items)
@@ -19,6 +19,7 @@ export default function SchedulePage() {
                 <input ref={dateRef} type="date" className="h-14 w-full bg-black text-white" onChange={()=>{
                     if (dateRef.current){
                         setCurDate( Date.parse(dateRef.current.value))
+                        console.log("parsed: " + Date.parse(dateRef.current.value))
                     }
                 }} />
                 <ListofCards

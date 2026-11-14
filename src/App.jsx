@@ -12,6 +12,7 @@ import "./App.css"
 import 'm3-ripple/ripple.css'
 import {sNetwork} from "./diary/Network.js";
 import useBackendDatabaseStore from "./diary/stores/useBackendDatabaseStore.ts";
+import {isUUID} from "./diary/types/UUID.ts";
 
 
 
@@ -73,6 +74,8 @@ export default function App(){
             useBackendDatabaseStore.getState().update()
         }
     }, [token]);
+
+    console.log(isUUID("00000000-0000-0000-0000-000000000000"))
 
 
     switch (fsView) {

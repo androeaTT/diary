@@ -6,11 +6,11 @@ export type ScheduleItem = {
     endTime     : string,
 
     teacherPin  : string,
-    classroomId : UUID,
     subjectId   : UUID,
-    taskId      : UUID,
-    topicId     : UUID,
-    userId      : UUID
+    userId      : UUID,
+    classroomId : UUID | null,
+    taskId      : UUID | null,
+    topicId     : UUID | null,
 };
 
 type ScheduleItems = {

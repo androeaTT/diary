@@ -164,8 +164,8 @@ const useBackendDatabaseStore = create<MultiUserStore>()( persist((set, get) => 
         if (!isUUID(userId)) return
 
 
-        const yearStart = getTermDate(Term.FIRST).from.toDateString()
-        const yearEnd   = getTermDate(Term.FOURTH).to.toDateString()
+        const yearStart = getTermDate(Term.FIRST).from.toISOString().split("T")[0]
+        const yearEnd   = getTermDate(Term.FOURTH).to.toISOString().split("T")[0]
 
         function ensureArray(response: unknown): ItemResponse[] {
             const actionResult = (response as any)?.actionResult;
@@ -228,7 +228,7 @@ const useBackendDatabaseStore = create<MultiUserStore>()( persist((set, get) => 
             const task      = convertTask(e)
             const topic     = convertTopic(e)
             const teacher   = convertTeacher(e)
-            const mark      = convertMark(e)
+            const mark      = convertMark(e, userId)
 
             const item      = convertItem(e, userId)
 
@@ -238,8 +238,10 @@ const useBackendDatabaseStore = create<MultiUserStore>()( persist((set, get) => 
                 state.addSubject(subject.object, subject.id)
             if (task)
                 state.addTask(task.object, task.id)
-            if (topic)
+            if (topic){
                 state.addTopic(topic.object, topic.id)
+                console.log("topic " + topic.id + " added for: " + item?.id)
+            }
             if (teacher)
                 state.addTeacher(teacher.object, teacher.pin)
             if (item)

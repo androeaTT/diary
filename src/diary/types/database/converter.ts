@@ -192,7 +192,11 @@ export function convertTeacher  (resp: ItemResponse): ConvertedTeacher | undefin
     const firstName     = teacher.firstName
     const lastName      = teacher.lastName
     const midName       = teacher.midName
-    if (!firstName || !lastName || !midName)
+    if (
+        (firstName === null || firstName === undefined) ||
+        (lastName  === null || lastName  === undefined) ||
+        (midName   === null || midName   === undefined)
+    )
         return undefined
 
     const rawPin = teacher.pin
@@ -225,12 +229,14 @@ export function convertItem     (resp: ItemResponse, userId: UUID): ConvertedSch
         return undefined
 
 
-    const classroomId = resp.roomData?.id
-    if (!classroomId)
+    let classroomId = resp.roomData?.id
+
+    if (classroomId === "00000000-0000-0000-0000-000000000000"){
+        classroomId = null
+    }
+    if (classroomId === undefined || (classroomId !== null && !isUUID(classroomId)))
         return undefined
 
-    if (!isUUID(classroomId))
-        return undefined
 
     const subjectId = resp.subject?.code
     if (!subjectId)
@@ -239,19 +245,35 @@ export function convertItem     (resp: ItemResponse, userId: UUID): ConvertedSch
     if (!isUUID(subjectId))
         return undefined
 
-    const taskId = resp.task?.objectId
-    if (!taskId)
+
+    // task check
+    const task = resp.task
+    if (task === undefined)
         return undefined
 
-    if (!isUUID(taskId))
+    let taskId
+    if (task === null){
+        taskId = null
+    } else {
+        taskId = task.objectId
+        if (taskId === undefined || (taskId !== null && !isUUID(taskId)))
+            return undefined
+    }
+
+
+    // topic check
+    const topic = resp.topic
+    if (topic === undefined)
         return undefined
 
-    const topicId = resp.topic?.objectId
-    if (!topicId)
-        return undefined
-
-    if (!isUUID(topicId))
-        return undefined
+    let topicId
+    if (topic === null){
+        topicId = null
+    } else {
+        topicId = topic.objectId
+        if (topicId === undefined || (topicId !== null && !isUUID(topicId)))
+            return undefined
+    }
 
     const itemId = resp.uid
     if (!itemId)
