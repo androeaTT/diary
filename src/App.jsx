@@ -75,8 +75,6 @@ export default function App(){
         }
     }, [token]);
 
-    console.log(isUUID("00000000-0000-0000-0000-000000000000"))
-
 
     switch (fsView) {
         case FullscreenPage.REQUIRED_LOGIN_PAGE:

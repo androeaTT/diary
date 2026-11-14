@@ -238,10 +238,8 @@ const useBackendDatabaseStore = create<MultiUserStore>()( persist((set, get) => 
                 state.addSubject(subject.object, subject.id)
             if (task)
                 state.addTask(task.object, task.id)
-            if (topic){
+            if (topic)
                 state.addTopic(topic.object, topic.id)
-                console.log("topic " + topic.id + " added for: " + item?.id)
-            }
             if (teacher)
                 state.addTeacher(teacher.object, teacher.pin)
             if (item)
