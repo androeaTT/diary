@@ -1,5 +1,5 @@
-@import 'tailwindcss';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import 'tailwindcss';
 html{
     overflow: hidden;
 }
@@ -16,9 +16,9 @@ body{
     --bg-color:             light-dark(#fff, #000);
     --bg-color-darker:      light-dark(#d8d8d8, #232323);
     --bg-dark-mod:          light-dark(#0001, #fff1);
+    --navbar:               light-dark(#bbb, #333);
     --bg-half-dark-mod:     light-dark(#00000005, #ffffff05);
     --bg-darker-mod:        light-dark(#0002, #fff2);
-    --bg-neutral:            light-dark(#ececec, #151515);
     --text-color:           light-dark(#000, #fff);
     --text-color-darker:    light-dark(#7e7e7e, #7e7e7e);
     --text-font-size:       16px;
@@ -36,4 +36,10 @@ body{
     font-size: var(--text-font-size);
     font-family: "Roboto";
 }
-::view-transition-group(*) { animation-duration: 0s; }
+::view-transition-group(*) { animation-duration: 0s }
+.navbar { view-transition-name: navigation-bar }
+::view-transition-group(navigation-bar) {
+    z-index: 1;
+    animation-duration: 0s
+
+}

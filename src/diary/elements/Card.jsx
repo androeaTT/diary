@@ -6,7 +6,7 @@ export default function Card({children, className, onClick, ripple = false}) {
     return (
         <div
             className = {twMerge(
-                "bg-(--bg-dark-mod) rounded-md relative",
+                "bg-(--bg-dark-mod) rounded-md overflow-hidden relative",
                 className
             )}
             onClick={onClick}
