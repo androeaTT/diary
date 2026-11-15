@@ -1,7 +1,7 @@
 # Custom client for my school diary 
 ([Play Store link to it](https://play.google.com/store/apps/details?id=com.ulut.bilim&hl=ru))
 
-Also there is a problem with CORS, witch i still haven't figured out yet, 
+Also there is a problem with CORS, which i still haven't figured out yet, 
 so u need to run python backend connector to correctly use backend:
 ```shell
 cd backendConnector
