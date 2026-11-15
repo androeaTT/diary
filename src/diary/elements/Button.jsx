@@ -29,7 +29,7 @@ export function Button({ variant, icon = false, className, onClick, label = fals
         >
             <div hidden={icon === false} className="text-2xl" >{icon}</div>
             <Ripple className="absolute" />
-            <div hidden={label === false}  className="flex-1 mr-1.5">{label}</div>
+            <div hidden={label === false}  className="flex-1 mr-1.5 select-none">{label}</div>
         </button>
     )
 }
